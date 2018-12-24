@@ -8,14 +8,18 @@ const environments = {};
 
 // Staging environment (default)
 environments.staging = {
-    port: 3000,
-    envName: 'staging'
+    httpPort: 3000,
+    httpsPort: 3001,
+    envName: 'staging',
+    hashingSecret: 'thisIsASecret'
 };
 
 // Production environment
 environments.production = {
-    port: 5050,
-    envName: 'production'
+    httpPort: 5000,
+    httpsPort: 5001,
+    envName: 'production',
+    hashingSecret: 'thisIsAlsoASecret'
 };
 
 // Determine which argument was passed as a command-line argument
