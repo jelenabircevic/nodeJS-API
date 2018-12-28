@@ -13,6 +13,8 @@ const fs = require('fs');
 const handlers = require('./handlers');
 const helpers = require('./helpers');
 const path = require('path');
+const util = require('util');
+const debug = util.debuglog('server');
 
 // Server
 const server = {};
@@ -87,8 +89,12 @@ server.unifiedServer = (req, res) => {
             res.writeHead(statusCode);
             res.end(payloadString);
 
-            // Log the request path
-            console.log(`Returning this response:`, statusCode, payloadString);
+            // If the response is 200, print green, otherwise print red
+            if(statusCode === 200) {
+                debug('\x1b[32m%s\x1b[0m', `${method.toUpperCase()} /${trimmedPath} ${statusCode}`);
+            } else {
+                debug('\x1b[31m%s\x1b[0m', `${method.toUpperCase()} /${trimmedPath} ${statusCode}`);
+            }
         });
 
     
@@ -99,12 +105,13 @@ server.unifiedServer = (req, res) => {
 server.init = () => {
     // Starting the HTTP server
     server.httpServer.listen(config.httpPort, () => {
-        console.log(`The server is listening on port ${config.httpPort}...`);
+        console.log('\x1b[36m%s\x1b[0m', `The server is listening on port ${config.httpPort}...`);
+        
     });
-
+    
     // Starting the HTTPS server
     server.httpsServer.listen(config.httpsPort, () => {
-        console.log(`The server is listening on port ${config.httpsPort}...`);
+        console.log('\x1b[35m%s\x1b[0m', `The server is listening on port ${config.httpsPort}...`);
     });
 }
  
